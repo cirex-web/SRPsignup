@@ -5,7 +5,7 @@
 let id = -1;
 function run() {
   var firebaseConfig = {
-    // ok   wait
+    // ok   wait does this work?
     apiKey: "AIzaSyCz8S0hkXh7i_5KcdyLUxBVq5YQhoPxiaw",
     authDomain: "srp1-ab420.firebaseapp.com",
     databaseURL: "https://srp1-ab420.firebaseio.com",
