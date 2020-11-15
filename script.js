@@ -1,11 +1,11 @@
 //It appears that you're interested in my code...
 //
 // Email erxu@ctemc.org (and screenshot this) if you want to work with me. :)
-
+// 
 let id = -1;
 function run() {
   var firebaseConfig = {
-    // lol plz don't hack this thanks
+    // ok  
     apiKey: "AIzaSyCz8S0hkXh7i_5KcdyLUxBVq5YQhoPxiaw",
     authDomain: "srp1-ab420.firebaseapp.com",
     databaseURL: "https://srp1-ab420.firebaseio.com",
