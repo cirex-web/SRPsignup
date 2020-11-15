@@ -19,9 +19,9 @@ function run() {
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
 
-  firebase.auth().onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
-      user.providerData.forEach(function(profile) {
+      user.providerData.forEach(function () {
         id = user.uid;
       });
 
@@ -29,16 +29,9 @@ function run() {
         .storage()
         .ref()
         .child(id + "/");
-      ref.listAll().then(function(res) {
+      ref.listAll().then(function (res) {
         if (res.items.length) {
-          $("#header").html(`          <a
-            target="_blank"
-            href="https://cdn.glitch.com/a7fe7389-b199-4059-9b1e-4e0edb35a775%2FConsent%20Form1.pdf?v=1605467307433"
-            >Consent Form Link</a
-          >`);
-          $("#bottom").text(
-            "Note: submitting a new file will override your previous submission"
-          );
+
           showSlide(2);
         } else {
           showSlide(1);
@@ -49,38 +42,51 @@ function run() {
     }
   });
 
-  $("#submit-file").on("change", async e => {
-    let file = e.target.files[0];
-    if (file) {
-      let ref = firebase.storage().ref(id + "/" + "form");
-
-      let task = ref.put(file);
-      $("progress").css("height", "0");
-      $("#submit-file").css("width", "50%");
-      $();
-      await wait(50);
-      $("progress").css("height", "30px");
-      await wait(200);
-      task.on(
-        "state_changed",
-        s => {
-          $("#upload-stat").val((s.bytesTransferred / s.totalBytes) * 100);
-        },
-        e => {
-          $("#error").html(e);
-        },
-        async () => {
-          showSlide(2);
-          await wait(500);
-          $("#submit-file").css("width", "180px");
-          $("progress").css("height", "0");
-          $("#upload-stat").val(0);
-        }
-      );
-    }
+  $("#submit-file").on("change", (e)=>{
+    processFileInput(e.target);
   });
 }
+async function processFileInput(e) {
+  let file = e.files[0];
+  if (file) {
+    let ref = firebase.storage().ref(id + "/" + "form");
+
+    let task = ref.put(file);
+    $("progress").css("height", "0");
+    $("#submit-file").css("width", "50%");
+    $();
+    await wait(50);
+    $("progress").css("height", "30px");
+    await wait(200);
+    task.on(
+      "state_changed",
+      s => {
+        $("#upload-stat").val((s.bytesTransferred / s.totalBytes) * 100);
+      },
+      e => {
+        $("#error").html(e);
+      },
+      async () => {
+        showSlide(2);
+        await wait(500);
+        $("#submit-file").css("width", "180px");
+        $("progress").css("height", "0");
+        $("#upload-stat").val(0);
+      }
+    );
+  }
+}
 async function showSlide(s) {
+  if (s == 2) {
+    $("#header").html(`          <a
+    target="_blank"
+    href="https://cdn.glitch.com/a7fe7389-b199-4059-9b1e-4e0edb35a775%2FConsent%20Form1.pdf?v=1605467307433"
+    >Consent Form Link</a
+  >`);
+    $("#bottom").text(
+      "Note: submitting a new file will override your previous submission"
+    );
+  }
   hideLoader();
   $(".container").css("opacity", 0);
   await wait(200);
@@ -103,4 +109,39 @@ function signUp() {
   //listenForCallback();
   let provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithRedirect(provider);
+}
+
+function dragOverHandler(ev){
+  $("#drop_zone").css("border","3px solid rgba(3, 155, 229, 1)");
+  ev.preventDefault();
+
+}
+function dragLeaveHandler(ev){
+  $("#drop_zone").css("border","3px solid black");
+  ev.preventDefault();
+}
+
+function dropHandler(ev) {
+  $("#drop_zone").css("border","3px solid black");
+
+  // Prevent default behavior (Prevent file from being opened)
+  ev.preventDefault();
+  handleFiles(ev.dataTransfer.files);
+}
+async function handleFiles(files){
+  const dT = new DataTransfer();
+  dT.items.add(files[0]);
+  let type = files[0].type;
+  //.pdf,image/*
+  if(type.split('.').pop()=="pdf"||type.split('/')[0]=="image"||type.split('/').pop()=="pdf"){
+    document.getElementById("submit-file").files = dT.files;
+    processFileInput(document.getElementById("submit-file"));
+  }else{
+    
+    $("#drop_zone").css("border","3px solid red");
+    $("#error").html("File type "+type+" not supported. If you think this is an error, try manually uploading your file");
+    await wait(1000);
+    $("#drop_zone").css("border","3px solid black");
+  }
+
 }

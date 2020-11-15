@@ -26,6 +26,14 @@ body {
   margin: auto;
   font-family: "Poppins";
 }
+#drop_zone{
+  border: 3px solid;
+  height: 20vh;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
 progress {
   /*   transition: 0.1s all ease; */
   width: 50%;

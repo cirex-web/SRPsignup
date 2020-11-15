@@ -1,99 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sign up</title>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="/style.css" />
-    <script src="/script.js" defer></script>
-  </head>
-  <body onload="run()">
-    <div class="container" id="0">
-      <div style="width:80%;margin: auto; text-align: center;">
-        <div class="txt" style="font-szie:50px">
-          Hi!
-        </div>
-        <div class="txt" style="font-size:35px; margin: 20px 0;">
-          To sign up for this experiment, just log in with your Google account
-        </div>
+  <title>Sign up</title>
 
-        <button onclick="signUp()">
-          Sign up!
-        </button>
-        <div class="txt" style="font-size:15px; margin:10px">
-          Note: This won't work in Incognito Mode
-        </div>
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/script.js" defer></script>
+</head>
+
+<body onload="run()">
+  <div class="container" id="0">
+    <div style="width:80%;margin: auto; text-align: center;">
+      <div class="txt" style="font-size:50px">
+        Hi!
+      </div>
+      <div class="txt" style="font-size:35px; margin: 20px 0;">
+        To sign up for this experiment, just log in with your Google account
+      </div>
+
+      <button onclick="signUp()">
+        Sign up!
+      </button>
+      <div class="txt" style="font-size:15px; margin:10px">
+        Note: This won't work in Incognito Mode
       </div>
     </div>
-    <div class="container" id="1">
-      <div style="width:80%;margin: auto; text-align: center;">
-        <div
-          class="txt"
-          id="header"
-          style="margin-bottom: 30px; font-size: 40px"
-        >
-          You've signed up!
-        </div>
+  </div>
+  <div class="container" id="1">
+    <div style="width:80%;margin: auto; text-align: center;">
+      <div class="txt" id="header" style="margin-bottom: 30px; font-size: 40px">
+        You've signed up!
+      </div>
 
-        <div class="txt" id="bottom" style="font-size:30px">
-          To expedite the
-          <a
-            target="_blank"
-            href="https://cdn.glitch.com/a7fe7389-b199-4059-9b1e-4e0edb35a775%2FConsent%20Form1.pdf?v=1605467307433"
-            >consent form</a
-          >
-          process, please upload your signed pdf here as well.
-        </div>
+      <div class="txt" id="bottom" style="font-size:30px">
+        To expedite the
+        <a target="_blank"
+          href="https://cdn.glitch.com/a7fe7389-b199-4059-9b1e-4e0edb35a775%2FConsent%20Form1.pdf?v=1605467307433">consent
+          form</a>
+        process, please upload your signed pdf here as well.
+      </div>
+      <div style="background: aliceblue;
+        padding: 10px;
+        margin-top: 20px;">
         <progress value="0" max="100" id="upload-stat">10</progress><br />
-        <input
-          type="file"
-          id="submit-file"
-          style="width:180px"
-          accept=".pdf,image/*"
-        />
-        <div id="error" style="text-align: left;color: red;"></div>
+        <input type="file" id="submit-file" style="width:180px; padding:10px" accept=".pdf,image/*" /><br>
+        <h2>OR</h2>
+        <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);"
+          ondragleave="dragLeaveHandler(event)">
+          <p style="font-size: 20px;margin: auto;">Drag and drop...</p>
+
+        </div>
       </div>
+
+
+      <div id="error" style="text-align: left;color: red;"></div>
     </div>
-    <div class="container" id="2">
-      <div style="width:80%;margin: auto; text-align: center;">
-        <!--         <img
+  </div>
+  <div class="container" id="2">
+    <div style="width:80%;margin: auto; text-align: center;">
+      <!--         <img
           src="https://cdn.glitch.com/a7fe7389-b199-4059-9b1e-4e0edb35a775%2Fok.png?v=1605408734088"
         /> -->
-        <div id="holder">
-          <div id="hider">
-            <div id="check"></div>
-          </div>
+      <div id="holder">
+        <div id="hider">
+          <div id="check"></div>
         </div>
-
-        <div class="txt" style="margin-top: 20px">
-          You're all set!
-        </div>
-        <button style="margin-top:50px" onclick="showSlide(1)">
-          Resubmit File...
-        </button>
       </div>
-      <button id="signOut" onclick="firebase.auth().signOut()">
-        Sign Out
+
+      <div class="txt" style="margin-top: 20px">
+        You're all set!
+      </div>
+      <button style="margin-top:50px" onclick="showSlide(1)">
+        Resubmit File...
       </button>
     </div>
-    <div id="loading">
-      <span class="loading_anim"></span>
-    </div>
+    <button id="signOut" onclick="firebase.auth().signOut()">
+      Sign Out
+    </button>
+  </div>
+  <div id="loading">
+    <span class="loading_anim"></span>
+  </div>
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
 
-    <!-- TODO: Add SDKs for Firebase products that you want to use
+  <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" defer></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" defer></script>
 
-    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-storage.js"></script>
 
-    <script></script>
-  </body>
+  <script></script>
+</body>
+
 </html>
