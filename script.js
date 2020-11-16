@@ -77,7 +77,6 @@ async function processFileInput(e) {
   }
 }
 async function showSlide(s) {
-  s=1;
   if (s == 2) {
     $("#header").html(`          <a
     target="_blank"
