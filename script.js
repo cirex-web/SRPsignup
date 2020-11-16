@@ -77,6 +77,7 @@ async function processFileInput(e) {
   }
 }
 async function showSlide(s) {
+  s=1;
   if (s == 2) {
     $("#header").html(`          <a
     target="_blank"
@@ -87,6 +88,7 @@ async function showSlide(s) {
       "Note: submitting a new file will override your previous submission"
     );
   }
+  
   hideLoader();
   $(".container").css("opacity", 0);
   await wait(200);
