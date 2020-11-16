@@ -4,6 +4,9 @@
 // 
 let id = -1;
 function run() {
+  setTimeout(()=>{
+    $("#loader-text").html("If it's taking too long to load, this site may be incompatible with your broswer. (Google Chrome works as of now)")
+  },5000);
   var firebaseConfig = {
     // 
     apiKey: "AIzaSyCz8S0hkXh7i_5KcdyLUxBVq5YQhoPxiaw",
@@ -41,9 +44,7 @@ function run() {
       showSlide(0);
     }
   });
-  setTimeout(()=>{
-    $("#loader-text").html("If it's taking too long to load, this site may be incompatible with your broswer. (Google Chrome works as of now)")
-  },5000);
+
   $("#submit-file").on("change", (e)=>{
     processFileInput(e.target);
   });
